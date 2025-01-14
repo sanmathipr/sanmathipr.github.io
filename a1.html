@@ -1,18 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-
     <title>Sanmathi's HCDE 439 Physical Computing Page!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        color: #333;
+      }
 
-    <link href="style.css" rel="stylesheet" type="text/css" />
+      header {
+        background-color: blue;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        margin: 0;
+      }
+
+      h3 {
+        color: blue;
+        font-size: 1.6em;
+        margin-top: 20px;
+      }
+
+      p {
+        font-size: 1.1em;
+        line-height: 1.6em;
+        margin-bottom: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .header img,
+      .header video {
+        max-width: 400px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .code-snippet {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-top: 20px;
+      }
+
+      .schematics, .graph {
+        width: 50%;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section {
+        margin: 20px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section p {
+        font-size: 1.1em;
+      }
+
+      .content-section h3 {
+        color: blue;
+        font-size: 1.4em;
+      }
+
+      footer {
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 0.9em;
+      }
+
+
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .schematics, .graph {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Sanmathi's Assignment 1!</h1>
-    <div class="header">
-      <img src="san pic.jpeg" />
-      <p>Here is all the documentation for assignment 1!</p>
+    <header>
+      <h1>Blink!</h1>
+    </header>
+
+    <div class="content-section">
+      <h3>Blink Circuit!</h3>
+      <p>Take a look at my Blink circuit!</p>
+      <div class="header">
+        <img src="blinkimage.jpeg" alt="Blink Circuit" />
+        <video src="blinkvid.mov" autoplay loop muted controls></video>
+      </div>
+
+      <h3>Code Snippet</h3>
+      <div class="code-snippet">
+        <pre>
+// the setup function runs once when you press reset or power the board
+void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(13, OUTPUT);  //one of the pins to start circuit
+  pinMode(12, OUTPUT);   //second of the pins to start circuit
+  pinMode(11, OUTPUT);   //third of the pins to start circuit
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  digitalWrite(13, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);                       // wait for a second
+  digitalWrite(13, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);                       // wait for a second
+
+  digitalWrite(12, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);                       // wait for a second
+  digitalWrite(12, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);                        // wait for a second
+
+  digitalWrite(11, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);                       // wait for a second
+  digitalWrite(11, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);                        // wait for a second
+}
+        </pre>
+      </div>
+
+      <h3>Schematics and Calculations</h3>
+      <img src="shcematics .png" alt="Schematics and Calculations" class="schematics" />
+      <p>As can be seen in the above image, all schematics for the different loops follow the same pattern. The calculations show that a current of 160 ohms or more is necessary for a resistor, and the closest one we have is 220 ohms, so that is what we use throughout the circuit.</p>
+
+      <h3>Additional Questions</h3>
+
+      <p>1. The above graph shows the connection between time and voltage of the three LEDs. The three LEDs respectively jump up one by one as their voltage goes up causing the LED to light up.</p>
+      <img src="graph.jpeg" alt="Graph" class="graph" />
+
+      <p>2. Since the Arduino has 14 pins, you are limited by the number of allotted pins, so you could make 14 LEDs blink independently. But if you want to be safe, it would be 10 LEDs, by dividing 200mA for the whole Arduino by 20mA for each separate LED.</p>
+
+      <p>3. I was able to blink my LEDs and see them go until 4 milliseconds, which means that after 3 milliseconds the changes are so fast they are imperceptible to the eye.</p>
     </div>
+
+    <footer>
+      <p>&copy; 2025 Sanmathi's HCDE 439 Physical Computing Page</p>
+    </footer>
   </body>
 </html>
