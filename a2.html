@@ -1,18 +1,182 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-
     <title>Sanmathi's HCDE 439 Physical Computing Page!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        color: #333;
+      }
 
-    <link href="style.css" rel="stylesheet" type="text/css" />
+      header {
+        background-color: blue;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        margin: 0;
+      }
+
+      h3 {
+        color: blue;
+        font-size: 1.6em;
+        margin-top: 20px;
+      }
+
+      p {
+        font-size: 1.1em;
+        line-height: 1.6em;
+        margin-bottom: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .header img,
+      .header video {
+        max-width: 400px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .code-snippet {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-top: 20px;
+      }
+
+      .schematics, .graph {
+        width: 50%;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section {
+        margin: 20px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section p {
+        font-size: 1.1em;
+      }
+
+      .content-section h3 {
+        color: blue;
+        font-size: 1.4em;
+      }
+
+      footer {
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 0.9em;
+      }
+
+
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .schematics, .graph {
+          width: 100%;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Sanmathi's Assignment 2!</h1>
-    <div class="header">
-      <img src="san pic.jpeg" />
-      <p>Here is all the documentation for assignment 2!</p>
+    <header>
+      <h1>Fade!</h1>
+    </header>
+
+    <div class="content-section">
+      <h3>Fade Circuit!</h3>
+      <p>Take a look at my Fade circuit!</p>
+      <div class="header">
+        <img src="fadepic.jpeg" alt="Blink Circuit" />
+        <video src="fadevid.mov" autoplay loop muted controls></video>
+      </div>
+
+      <h3>Code Snippet</h3>
+      <div class="code-snippet">
+        <pre>
+
+          const int button = 2; //initializing the button pin    
+          const int leds[] = {3, 5, 6};  //initializing the led pins 
+          
+          void setup() {
+            for (int i = 0; i < 3; i++) pinMode(leds[i], OUTPUT); // Set LED pins as outputs
+            pinMode(button, INPUT); // Set button pin as input
+          }
+          
+          void loop() {
+            if (digitalRead(button) == HIGH) { // Check if button is pressed
+              digitalWrite(leds[0], LOW); //if button pressed all leds off
+              digitalWrite(leds[1], LOW);//if button pressed all leds off
+              digitalWrite(leds[2], LOW);//if button pressed all leds off
+              
+            } else { // If button is not pressed
+              for (int brightness = 0; brightness <= 255; brightness++) {  // Fade LEDs up and down
+                for (int i = 0; i < 3; i++) analogWrite(leds[i], brightness); // Fade up
+                if (digitalRead(button) == HIGH) { // Check if button is pressed to immediately turn off
+                  break; //leaves loop and goes back to initial if statement where all leds are off
+                }
+                delay(10); //between fade up and down
+              }
+              for (int brightness = 255; brightness >= 0; brightness--) {
+                for (int i = 0; i < 3; i++) analogWrite(leds[i], brightness); // Fade down
+             if (digitalRead(button) == HIGH) { // Check if button is pressed
+              break; //leaves loop and goes back to initial if statement where all leds are off
+             }
+                delay(10); //between fades 
+              }
+            }
+          }
+          
+        </pre>
+      </div>
+
+      <h3>Schematics and Calculations</h3>
+      <img src="fadeschematics.jpeg" alt="Schematics and Calculations" class="schematics" />
+      <p>The above image displays schematics for the button and three LEDs respectively. All of these circuits require different pins and resistor types which are shown. Calculations for these follow below. </p>
+
+
+     
+      <img src="fadecalculations.jpeg" alt="Graph" class="graph" />
+      These calculations show how resistors were calculated for the button and LEDs. The equation V=IR was used, substituting the known factors--for LED resistors we use 5 V and the voltage drop, in addition to the allowed 0.02 A amount, to calculate 160 ohms. 
+      The closest resistor to 160 ohms is 220 ohms, which is what we use. For the button, we use 5 V and 0.02 A to calculate the resistor ohms--we get 250 ohms for this. Technically we can go lower on the resistor than 10k in this case, but that is the suggested amount. 
+
+
+      <h3>Additional Questions</h3>
+     
     </div>
+
+    <footer>
+      <p>&copy; 2025 Sanmathi's HCDE 439 Physical Computing Page</p>
+    </footer>
   </body>
 </html>
