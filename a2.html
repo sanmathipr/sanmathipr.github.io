@@ -167,12 +167,20 @@
 
      
       <img src="fadecalculations.jpeg" alt="Graph" class="graph" />
-      These calculations show how resistors were calculated for the button and LEDs. The equation V=IR was used, substituting the known factors--for LED resistors we use 5 V and the voltage drop, in addition to the allowed 0.02 A amount, to calculate 160 ohms. 
-      The closest resistor to 160 ohms is 220 ohms, which is what we use. For the button, we use 5 V and 0.02 A to calculate the resistor ohms--we get 250 ohms for this. Technically we can go lower on the resistor than 10k in this case, but that is the suggested amount. 
+      <p> These calculations show how resistors were calculated for the button and LEDs. The equation V=IR was used, substituting the known factors--for LED resistors we use 5 V and the voltage drop, in addition to the allowed 0.02 A amount, to calculate 160 ohms. 
+      The closest resistor to 160 ohms is 220 ohms, which is what we use. For the button, we use 5 V and 0.02 A to calculate the resistor ohms--we get 250 ohms for this. Technically we can go lower on the resistor than 10k in this case, but that is the suggested amount because otherwise we waste battery. </p>
 
 
       <h3>Additional Questions</h3>
-     
+      <p>Question 1</p>
+      <img src="question 1.png" alt="Question 1" class="question" />
+      <p>This question is based on the duty cycles for the different brightnesses of analogWrite. AnalogWrite(led,255) represents a 100% duty cycle, analogWrite(led,128) represents a 50% duty cycle, and analogWrite(led,64) represents a 25% duty cycle, so each cycle has a voltage increase, stagnancy, and drop but 
+        varies in how long this lasts. The first cycles have been colored in to show more explicitly exactly how long they last.</p>
+  
+      <p>Question 2</p>
+      <img src="fade calc 2.jpeg" alt="Question 2" class="question" />
+      <p>My circuit would run for around 55 hours, as seen in the picture above. First we calculate the mA for one red LED, which is 14.5mA, and multiply it by 3 for all 3 LEDs. That gives us 43.5mA which must be divided by 2 to account for the fade, which then gives us 21.75mA. Lastly we divide the 1200mAH by 21.75 to get 55.17 hours. </p>  
+  
     </div>
 
     <footer>
