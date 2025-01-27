@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <title>Sanmathi's HCDE 439 Physical Computing Page!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      header {
+        background-color: blue;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        margin: 0;
+      }
+
+      h3 {
+        color: blue;
+        font-size: 1.6em;
+        margin-top: 20px;
+      }
+
+      p {
+        font-size: 1.1em;
+        line-height: 1.6em;
+        margin-bottom: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .header img,
+      .header video {
+        max-width: 400px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .code-snippet {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-top: 20px;
+      }
+      .question {
+    width: 700px;
+    height: auto;
+  }
+
+
+      .schematics, .graph {
+        width: 50%;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section {
+        margin: 20px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section p {
+        font-size: 1.1em;
+      }
+
+      .content-section h3 {
+        color: blue;
+        font-size: 1.4em;
+      }
+
+      footer {
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 0.9em;
+      }
+
+
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .schematics, .graph {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Fade!</h1>
+    </header>
+
+    <div class="content-section">
+      <h3>Input Output!</h3>
+      <p>Take a look at my Input Output circuit!</p>
+      <div class="header">
+        <img src="input output circuit pic.jpeg" alt="Input Output Circuit" />
+        <video src="input output vid.mov" autoplay loop muted controls></video>
+      </div>
+
+      <h3>Code Snippet</h3>
+      <div class="code-snippet">
+        <pre>
+            const int sensorPin = A0; //set sensor pin
+            const int ledPin = 9; //set led pin 1
+            const int ledPin2 = 5; //set led pin 2
+            
+            int sensorValue, high = 0, low = 1023; //setting the high and low of the photo sensor (given values)
+            
+            void setup() { //setup
+              Serial.begin(9600); //starting serial print
+              pinMode(ledPin, OUTPUT); //set output for first LED pin
+              pinMode(ledPin2, OUTPUT); //set output for second LED pin
+            }
+            
+            void loop() { //loop to repeat process
+              sensorValue = analogRead(sensorPin); //read current level of light from sensor
+            
+                Serial.print("Input (sensor) ="); //printing out input, based on how much light read from sensor
+                Serial.println(sensorValue); //print value
+            
+              //high and low might not be 0 and 1023, so we are finding new high and low values
+              if (sensorValue < low) { //if statement finds low value
+                low = sensorValue;  //sets a low value
+              }
+              if (sensorValue > high) { //if statement finds high value 
+                high = sensorValue; //sets a low value
+              }
+            
+              //
+              sensorValue = map(sensorValue, low+5, high-5, 0, 255); 
+              //maps the sensor value from a range from 0-1023 to 0-255, but needs an offset to make sure fully turns on and off
+              sensorValue = constrain(sensorValue, 0, 255); //constrains the value to the limits 
+            
+            
+                analogWrite(ledPin, sensorValue); //write the new value to the led based on the sensor
+                analogWrite(ledPin2, sensorValue); //write the new value to the led based on the sensor
+            
+                Serial.print("\t Output (LED light) =");//printing out output, based on how much light the led uses 
+                Serial.println(sensorValue); //print value
+            }
+        </pre>
+      </div>
+
+      <h3>Schematics and Calculations</h3>
+      <img src="inputoutputschematics.jpeg" alt="Schematics and Calculations" class="schematics" />
+      <p>The above image displays schematics for the photoresistor and two LEDs respectively. The photoresistor is followed by a 10K resistor, shown in the explanation and calculations below.  </p>
+
+
+     
+      <img src="inputoutputcalc.jpeg" alt="Calculations" class="graph" />
+      <p>This image is an explanation of the kinds of inputs you might read at the voltage divider through the sensor. The voltage divider reads around 540 when the photosensor is exposed to a moderate amount of light, which is converted as an output to 255 to the LED, which is the brightest it gets. The picture further explains this idea, as well as why we use 10K ohm resistors 
+        for the photoresistor. 
+      </p>
+
+
+      <h3>Additional Questions</h3>
+      <img src="additionalinputoutput.jpeg" alt="Questions" class="question" />
+     
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Sanmathi's HCDE 439 Physical Computing Page</p>
+    </footer>
+  </body>
+</html>
