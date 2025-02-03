@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <title>Sanmathi's HCDE 439 Physical Computing Page!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      header {
+        background-color: blue;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        margin: 0;
+      }
+
+      h3 {
+        color: blue;
+        font-size: 1.6em;
+        margin-top: 20px;
+      }
+
+      p {
+        font-size: 1.1em;
+        line-height: 1.6em;
+        margin-bottom: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .header img,
+      .header video {
+        max-width: 400px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .code-snippet {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-top: 20px;
+      }
+      .question {
+    width: 700px;
+    height: auto;
+  }
+
+
+      .schematics, .graph {
+        width: 50%;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section {
+        margin: 20px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section p {
+        font-size: 1.1em;
+      }
+
+      .content-section h3 {
+        color: blue;
+        font-size: 1.4em;
+      }
+
+      footer {
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 0.9em;
+      }
+
+
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .schematics, .graph {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Libraries!</h1>
+    </header>
+
+    <div class="content-section">
+      <h3>Libraries!</h3>
+      <p>Take a look at my Library circuit!</p>
+      <div class="header">
+        <img src="librarypic.jpeg" alt="Library Circuit" />
+        <video src="libraryvid.mov" autoplay loop muted controls></video>
+      </div>
+
+      <h3>Code Snippet</h3>
+      <div class="code-snippet">
+        <pre>
+            #include &lt;CapacitiveSensor.h&gt; //add capacitive sensor library
+            #include &lt;Servo.h&gt; //add servo library
+                
+                CapacitiveSensor cs_4_2(4, 2);  // Send pin 4, Receive pin 2
+                Servo myServo; //initialize servo
+                
+                const int servoPin = 12; //associate servo with pin
+                const long touchThreshold = 500;  //threshold amount
+                 
+                void setup() { //setup
+                    myServo.attach(servoPin); //servoPin -> to myServo 
+                }
+                
+                void loop() { //loop
+                    long sensorValue = cs_4_2.capacitiveSensor(30);  // read capacitive value
+                    
+                    if (sensorValue > touchThreshold) {//if the sensor value is more than the touch threshold
+                        // movement back and forth
+                        for (int pos = 0; pos <= 180; pos += 5) {  // move from 0 to 180 degrees
+                            myServo.write(pos); //change position
+                            delay(15);  // adjust speed
+                        }
+                        for (int pos = 180; pos >= 0; pos -= 5) {  // move back from 180 to 0 degrees
+                            myServo.write(pos); //change position
+                            delay(15);  // adjust speed
+                        }
+                    } else { //if else
+                        myServo.write(0);  // Reset to initial position if not touched
+                    }
+                }                
+        </pre>
+      </div>
+
+      <h3>Schematics and Calculations</h3>
+      <img src="libraryschematic.jpeg" alt="Schematics and Calculations" class="schematics" />
+      <p>This schematic shows the servo motor and capacitive sensing circuits. We can see the reason a 1,000,000 Ohm resistor is used as well shown in the image. Servo motors have internal resistors, so an additional is not needed. </p>
+
+
+      <h3>Additional Questions</h3>
+      <img src="libraryquestion1and2.5.jpeg" alt="Questions" class="question" />
+      <div class="code-snippet">
+        <pre>
+            long process_reading() { //filters by finding mean
+                long readings[5];  // takes 5 readings
+                long sum = 0;      // initialize sum for averaging
+                
+                for (int i = 0; i < 5; i++) {  // takes 5 samples
+                    readings[i] = cs_4_2.capacitiveSensor(30); 
+                    sum += readings[i];  // add each reading to the sum
+                }
+                
+                return sum / 5;  // return the average of the readings
+            }
+        </pre>
+     
+    </div>
+    <img src="libraryquestion3.jpeg" alt="Questions" class="question" />
+    <div class="code-snippet">
+      <pre>
+          // filters by finding the median
+          long process_reading() {
+              long readings[5];  //takes 5 readings
+          
+              for (int i = 0; i < 5; i++) {  // takes 5 samples
+                  readings[i] = cs_4_2.capacitiveSensor(30); 
+              }
+          
+              // sorts through array to order
+              for (int i = 0; i < 4; i++) {
+                  for (int j = i + 1; j < 5; j++) {
+                      if (readings[i] > readings[j]) {
+                          long temp = readings[i];
+                          readings[i] = readings[j];
+                          readings[j] = temp;
+                      }
+                  }
+              }
+          
+              return readings[2];  // returns the median value
+          }
+         
+      </pre>
+   
+  </div>
+
+    <footer>
+      <p>&copy; 2025 Sanmathi's HCDE 439 Physical Computing Page</p>
+    </footer>
+  </body>
+</html>
