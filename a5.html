@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <title>Sanmathi's HCDE 439 Physical Computing Page!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      header {
+        background-color: blue;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        margin: 0;
+      }
+
+      h3 {
+        color: blue;
+        font-size: 1.6em;
+        margin-top: 20px;
+      }
+
+      p {
+        font-size: 1.1em;
+        line-height: 1.6em;
+        margin-bottom: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .header img,
+      .header video {
+        max-width: 400px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .code-snippet {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-top: 20px;
+      }
+      .question {
+    width: 700px;
+    height: auto;
+  }
+
+
+      .schematics, .graph {
+        width: 50%;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section {
+        margin: 20px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section p {
+        font-size: 1.1em;
+      }
+
+      .content-section h3 {
+        color: blue;
+        font-size: 1.4em;
+      }
+
+      footer {
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 0.9em;
+      }
+
+
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .schematics, .graph {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Higher Voltage and Transistors!</h1>
+    </header>
+
+    <div class="content-section">
+      <h3>Higher Voltage and Transistors!</h3>
+      <p>Take a look at my Higher Voltage and Transistors circuit!</p>
+      <div class="header">
+        <img src="highpic.jpeg" alt="Higher Voltage and Transistors Circuit" />
+        <video src="highvid.mov" autoplay loop muted controls></video>
+      </div>
+
+      <h3>Code Snippet</h3>
+      <div class="code-snippet">
+        <pre>
+            const int sensorOutputPin = 11;  // sensorPin output
+            const int sensorInputPin = 10;  // sensorPin input
+            const int ledPin = 9;  // PWM pin controlling the MOSFET 
+            #define SOUND_SPEED 0.0343  // Speed of sound in air (343 m/s) converted to cm/us
+            
+            void setup() { //setup code
+                pinMode(sensorOutputPin, OUTPUT); // Set sensor pin as an output to send the pulse
+                pinMode(sensorInputPin, INPUT); // Set sensor pin as an input to receive pulse
+                pinMode(ledPin, OUTPUT);  // Set ledPin as an output
+            }
+            
+            void loop() { //repeat code 
+                digitalWrite(sensorOutputPin, LOW);  // start with a low pulse
+                delayMicroseconds(2); // start with a low pulse for two seconds
+                digitalWrite(sensorOutputPin, HIGH);  // send high pulse for echo
+                delayMicroseconds(10); // send high pulse for echo for ten seconds
+                digitalWrite(sensorOutputPin, LOW); // end with a low pulse for two seconds
+            
+                
+                long duration = pulseIn(sensorInputPin, HIGH); // read the time it takes for the echo to return
+            
+                
+                int distance = duration * SOUND_SPEED / 2; // calculate distance in centimeters
+            
+            
+                int brightness = map(constrain(distance, 10, 100), 10, 100, 255, 0);  // map distance (10cm to 100cm) to LED brightness (0-255)
+            
+                analogWrite(ledPin, brightness); // set the brightness using analogWrite()
+            
+                delay(50); // delay to stabilize readings
+            }                 
+        </pre>
+      </div>
+
+      <h3>Schematics and Calculations</h3>
+      <img src="highschematic.jpeg" alt="Schematics and Calculations" class="schematics" />
+      <p>This is the schematic for the circuit.</p>
+
+
+      <h3>Additional Questions</h3>
+      <img src="highadditional.jpeg" alt="Questions" class="question" />
+    
+   
+  </div>
+
+    <footer>
+      <p>&copy; 2025 Sanmathi's HCDE 439 Physical Computing Page</p>
+    </footer>
+  </body>
+</html>
