@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+    <title>Sanmathi's HCDE 439 Physical Computing Page!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      header {
+        background-color: blue;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5em;
+        margin: 0;
+      }
+
+      h3 {
+        color: blue;
+        font-size: 1.6em;
+        margin-top: 20px;
+      }
+
+      p {
+        font-size: 1.1em;
+        line-height: 1.6em;
+        margin-bottom: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+
+      .header img,
+      .header video {
+        max-width: 400px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .code-snippet {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+        margin-top: 20px;
+      }
+      .question {
+    width: 700px;
+    height: auto;
+  }
+
+
+      .schematics, .graph {
+        width: 50%;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section {
+        margin: 20px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .content-section p {
+        font-size: 1.1em;
+      }
+
+      .content-section h3 {
+        color: blue;
+        font-size: 1.4em;
+      }
+
+      footer {
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        font-size: 0.9em;
+      }
+
+
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .schematics, .graph {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Talking to the web!</h1>
+    </header>
+
+    <div class="content-section">
+      <h3>Talking to the web!</h3>
+      <p>Take a look at my Talking to the web! circuit!</p>
+      <div class="header">
+        <img src="webpic.jpeg" alt="Higher Voltage and Transistors Circuit" />
+        <video src="webvid.mov" autoplay loop muted controls></video>
+      </div>
+
+      <h3>Code Snippet js.</h3>
+      <div class="code-snippet">
+        <pre>
+            const BAUD_RATE = 9600; //measures how many times signal changes state per second
+            const MIN_DIAMETER = 10; //min diameter
+            const MAX_DIAMETER = 40; //max diameter 
+            
+            let port, connectBtn, blinkBtn; // declare global variables
+            let joystickDirection = ""; // variable to store joystick direction
+            
+            function setup() { //setup
+              setupSerial(); // run our serial setup function
+              createCanvas(windowWidth, windowHeight); // create a canvas that is the size of our browser window.
+              blinkBtn = createButton("Blink LEDs"); // create a "Blink" button
+              blinkBtn.position(150, 5); // position the button to the right of the connect button.
+              blinkBtn.mouseClicked(onBlinkButtonClicked); // When the button is clicked, run the onBlinkButtonClicked function
+            }
+            
+            function draw() {//draw function
+              const portIsOpen = checkPort(); // Check whether the port is open
+              if (!portIsOpen) return; // If the port is not open, exit the draw loop
+            
+              let str = port.readUntil("\n"); // Read from the port until the newline
+              if (str.length == 0) return; // If we didn't read anything, return.
+            
+              // Check if the string is the joystick direction
+              if (str.includes("UP")) { //if you get up from arduino
+                joystickDirection = "UP"; //that is the joystick direction
+              } else if (str.includes("DOWN")) {//if you get down from arduino
+                joystickDirection = "DOWN";//that is the joystick direction
+              } else if (str.includes("LEFT")) {//if you get left from arduino
+                joystickDirection = "LEFT";//that is the joystick direction
+              } else if (str.includes("RIGHT")) {//if you get right from arduino
+                joystickDirection = "RIGHT";//that is the joystick direction
+              }
+            
+              console.log(str); //makes it a string
+              // Display the joystick direction on the canvas
+              background(200); //sets background color
+              textSize(32); //sets size of text 
+              textAlign(CENTER, CENTER); //aligns text 
+              text(joystickDirection, width / 2, height / 2); //sets size of text 
+            }
+            
+            
+            function setupSerial() { //manages serial connection
+              port = createSerial(); //creates serial port 
+            
+              let usedPorts = usedSerialPorts(); //says what ports are in use
+              if (usedPorts.length > 0) { //needs there to be more than 0 user ports 
+                port.open(usedPorts[0], BAUD_RATE); //to open
+              }
+            
+              // create a connect button
+              connectBtn = createButton("Connect to Arduino"); //connects port to arduino
+              connectBtn.position(5, 5); //places button on screen
+              connectBtn.mouseClicked(onConnectButtonClicked); // When the button is clicked, run the onConnectButtonClicked function
+            }
+            
+            function checkPort() { //checks the port
+              if (!port.opened()) { //if port is not opened
+                connectBtn.html("Connect to Arduino"); //then allows for connect to arduino
+                background("gray"); //sets background color
+                return false; // returns false 
+              } else { //if port is opened
+                connectBtn.html("Disconnect"); //allows for disconnect
+                return true; //returns true
+              }
+            }
+            
+            function onConnectButtonClicked() { //if button is clicked
+              if (!port.opened()) { //port is not opened
+                port.open(BAUD_RATE); //opens port
+              } else { //or else 
+                port.close(); //closes port 
+              }
+            }
+            
+            function onBlinkButtonClicked() { // Send the "BLINK" command to Arduino
+              if (port.opened()) { //if port is opened
+                port.write("BLINK\n"); //write to blink
+              }
+            }   
+            
+        </pre>
+      </div>
+
+
+      <h3>Code Snippet Arduino</h3>
+      <div class="code-snippet">
+        <pre>
+            const int SW_pin = 2; // Joystick button
+            const int X_pin = A0; // Joystick X-axis
+            const int Y_pin = A1; // Joystick Y-axis
+            
+            #define UP_LED 8 // define the up led
+            #define RIGHT_LED 9 // define the right led
+            #define LEFT_LED 10// define the left led
+            #define DOWN_LED 11// define the down led
+            
+            void setup() { //setup
+              pinMode(SW_pin, INPUT_PULLUP); //sets sw pin to input
+              Serial.begin(9600); // Match baud rate with p5.js
+            
+              pinMode(UP_LED, OUTPUT); //sets all leds as output
+              pinMode(RIGHT_LED, OUTPUT);//sets all leds as output
+              pinMode(LEFT_LED, OUTPUT);//sets all leds as output
+              pinMode(DOWN_LED, OUTPUT);//sets all leds as output
+            }
+            
+            void loop() { //loop
+              int xValue = analogRead(X_pin); //sets value of x with pin
+              int yValue = analogRead(Y_pin);//sets value of y with pin
+              int buttonState = digitalRead(SW_pin);//sets value of sw pin with button state 
+            
+              if (Serial.available()) { // Read serial input from p5.js
+                String command = Serial.readStringUntil('\n'); // Read command
+                command.trim(); // Remove whitespace
+            
+                if (command == "BLINK") { //if the command is to blink
+                  blinkLeds();//blink the leds with the function
+                }
+              }
+            
+              const int centerThreshold = 512;   // Joystick direction detection
+              const int deadzone = 100; // Joystick direction detection 
+            
+              if (yValue > centerThreshold + deadzone) { //sees if joystick goes up 
+                Serial.println("UP"); //prints up
+                digitalWrite(UP_LED, HIGH);  //led on
+              } else if (yValue < centerThreshold - deadzone) { //if its for down
+                Serial.println("DOWN"); //prints down
+                digitalWrite(DOWN_LED, HIGH);//led on
+              } else if (xValue > centerThreshold + deadzone) {//if its for right
+                Serial.println("RIGHT");//prints right
+                digitalWrite(RIGHT_LED, HIGH);//led on
+              } else if (xValue < centerThreshold - deadzone) {//if its for left
+                Serial.println("LEFT");//prints left
+                digitalWrite(LEFT_LED, HIGH);//led on
+              } else { //else
+                digitalWrite(UP_LED, LOW); //led off
+                digitalWrite(DOWN_LED, LOW);//led off
+                digitalWrite(LEFT_LED, LOW);//led off
+                digitalWrite(RIGHT_LED, LOW);//led off
+              }
+            }
+            
+            // Function to blink all LEDs once
+            void blinkLeds() { //blink leds function
+              digitalWrite(UP_LED, HIGH); //led on
+              digitalWrite(RIGHT_LED, HIGH);//led on
+              digitalWrite(LEFT_LED, HIGH);//led on
+              digitalWrite(DOWN_LED, HIGH);//led on
+              delay(200);//delay
+              digitalWrite(UP_LED, LOW);//led off
+              digitalWrite(RIGHT_LED, LOW);//led off
+              digitalWrite(LEFT_LED, LOW);//led off
+              digitalWrite(DOWN_LED, LOW);//led off
+            }
+            
+        </pre>
+      </div>
+
+      <h3>Schematics and Calculations</h3>
+      <img src="webschematic.jpeg" alt="Schematics and Calculations" class="schematics" />
+      <p>This is the schematic for the circuit.</p>
+
+   
+  </div>
+
+    <footer>
+      <p>&copy; 2025 Sanmathi's HCDE 439 Physical Computing Page</p>
+    </footer>
+  </body>
+</html>
