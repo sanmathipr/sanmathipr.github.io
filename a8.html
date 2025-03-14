@@ -207,23 +207,31 @@
 
       <h3>Schematics and Write-up</h3>
       <img src="finalschematic.jpeg" alt="Schematics and Calculations" class="schematics" />
-      <p>This is the schematic for the circuit. The schematic is pretty simple. Power flows to the LED through the outlet, goes to the transistor, which connects it to pin 5 and takes it to ground. 
-        These are the hardware components: 
-        -Input Devices:
-        -Laptop Mic
-        -Output Devices:
-        -LED strip
-        -Other components:
-        Transistor, Arduino, Alligator Clips, Mini Breadboard, Wires
-        -Umbrella holder and small cardboard box for enclosure and design
+      <p>This is the schematic for the circuit. The schematic is pretty simple. Power flows to the LED through the outlet, goes to the transistor, which connects it to pin 5 and takes it to ground.<br>
+        <br>
+       These are the hardware components:<br>
+       <br>
+        -Input Devices:<br>
+        -Laptop Mic<br>
+        -Output Devices:<br>
+        -LED strip<br>
+        -Other components:<br>
+        Transistor, Arduino, Alligator Clips, Mini Breadboard, Wires<br>
+        -Umbrella holder and small cardboard box for enclosure and design<br>
+        <br>
+        
 
-        The code works as follows: 
-        -Uses Python to split the audio frames into samples of sound (512 samples and 44100 samples per second)
-        -Uses frequency ranges (bass ranges worked best at 80-250 Hz), volume scale (at 0.2 because lower makes high volumes less saturated), threshold (at 20 which ignores background noise), bass smoothing (at 0.3, higher is more responsive but lower is smoother) – this was all just trial and error to figure out what worked
-        -Then calculating bass intensity by finding how many occurrences of frequency bins fall within a certain frequency range (so for example if there’s a lot of base range frequencies, the light would be really bright) 
-        -Mapping that intensity to the led lights
+        The code works as follows:<br>
+        <br>
+        -Uses Python to split the audio frames into samples of sound (512 samples and 44100 samples per second)<br>
+        -Uses frequency ranges (bass ranges worked best at 80-250 Hz), volume scale (at 0.2 because lower makes high volumes less saturated), threshold (at 20 which ignores background noise), bass smoothing (at 0.3, higher is more responsive but lower is smoother) – this was all just trial and error to figure out what worked<br>
+        -Then calculating bass intensity by finding how many occurrences of frequency bins fall within a certain frequency range (so for example if there’s a lot of base range frequencies, the light would be really bright) <br>
+        -Mapping that intensity to the led lights<br>
+        <br>
 
-        Detailed Write Up: This project involves a sound-reactive LED system that utilizes Python and Arduino to analyze audio input and control an LED strip based on bass intensity. The hardware consists of an Arduino, a laptop microphone as the input device, an LED strip as the output, and additional components such as a transistor, alligator clips, a mini breadboard, and connecting wires. The enclosure and design include an umbrella holder and a small cardboard box. The circuit functions by allowing power to flow through the LED, which is controlled by a transistor connected to Arduino’s pin 5, grounding the circuit as needed.
+        Detailed Write Up:<br>
+        <br>
+         This project involves a sound-reactive LED system that utilizes Python and Arduino to analyze audio input and control an LED strip based on bass intensity. The hardware consists of an Arduino, a laptop microphone as the input device, an LED strip as the output, and additional components such as a transistor, alligator clips, a mini breadboard, and connecting wires. The enclosure and design include an umbrella holder and a small cardboard box. The circuit functions by allowing power to flow through the LED, which is controlled by a transistor connected to Arduino’s pin 5, grounding the circuit as needed.
         The Python code processes audio in real time using the PyAudio library, capturing sound in 512-sample chunks at a sampling rate of 44,100 Hz. It applies a Fast Fourier Transform (FFT) to break down the audio signal into frequency components. The system specifically focuses on bass frequencies between 80 and 250 Hz, as these provide the most noticeable lighting effects. A smoothing factor (ALPHA_BASS) of 0.3 ensures that brightness transitions appear natural rather than overly abrupt. A threshold of 20 is used to filter out background noise, and a volume scaling factor of 0.02 ensures that brightness changes remain proportional to the detected bass intensity. The program continuously reads incoming audio data, extracts bass intensity by identifying the number of frequency bins within the target range, and applies exponential smoothing to produce a stable output. The processed brightness value, mapped within the range of 0 to 255, is then transmitted via serial communication to the Arduino.
         On the Arduino side, the microcontroller receives the brightness values from the Python script over a serial connection. The LED is connected to pin 5, which is defined as an output. The Arduino continuously listens for incoming brightness data and updates the LED’s intensity using the analogWrite() function. This allows the LED strip to dynamically respond to the intensity of bass frequencies in the audio, creating a visually engaging experience. The overall system effectively synchronizes sound input with LED brightness, offering a real-time, immersive lighting effect.
          </p>
